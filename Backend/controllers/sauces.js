@@ -44,7 +44,6 @@ exports.modifySauces = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
-
 exports.deleteSauces = (req, res, next) => {
   sauces.findOne({ _id: req.params.id })
     .then(sauces => {
