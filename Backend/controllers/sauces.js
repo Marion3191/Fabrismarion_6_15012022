@@ -10,8 +10,6 @@ exports.createSauces = (req, res, next) => {
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     //rajouter le chan de creation du like 
   });
-  console.log(saucesObject);
-  console.log(Sauce);
   Sauce.save()
   .then(() => res.status(201).json({ message: 'objet enregistré !'}))
   .catch(error => res.status(400).json({ error }));
@@ -46,8 +44,8 @@ exports.modifySauces = (req, res, next) => {
 
 exports.deleteSauces = (req, res, next) => {
   sauces.findOne({ _id: req.params.id })
-    .then(sauces => {
-      const filename = sauces.imageUrl.split('/images/')[1];
+    .then(sauce => {
+      const filename = sauce.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
         sauces.deleteOne({ _id: req.params.id })
           .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
