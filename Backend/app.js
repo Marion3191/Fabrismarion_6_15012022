@@ -1,18 +1,22 @@
 const express = require('express');
+const helmet = require("helmet");
 const mongoose = require('mongoose');
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 const path = require('path');
+require('dotenv').config();
 
-mongoose.connect('mongodb+srv://marionocr:marion2509@cluster0.22nk4.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
+
+mongoose.connect(
+  process.env.ConectDB,
+    { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
   
 const app = express();
 
-
+app.use(helmet());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,6 +24,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
 
 app.use(express.json());
 
