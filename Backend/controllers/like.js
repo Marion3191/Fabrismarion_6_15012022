@@ -20,7 +20,7 @@ sauces.findOne({_id : req.params.id})
 
         //si userlike est false et si like ===1
         if(!Object.usersLiked.includes(req.body.userId) && req.body.like === 1){
-            console.log("cest executer like a 1")
+            console.log("like:",req.body.like)
 
             //mise a jour bdd
             sauces.updateOne(
@@ -35,7 +35,7 @@ sauces.findOne({_id : req.params.id})
             };
             //like =0 (pas de vote)
             if(Object.usersLiked.includes(req.body.userId) && req.body.like === 0){
-                console.log("userId est dans userLiked et like = 0")
+                console.log("UN_like:",req.body.like)
     
                 //mise a jour bdd
                 sauces.updateOne(
@@ -53,7 +53,7 @@ sauces.findOne({_id : req.params.id})
 
  //like = -1 (dislikes = +1)
  if(!Object.usersLiked.includes(req.body.userId) && req.body.like === -1){
-    console.log("userId est dans userDisliked et dislikes = 1")
+    console.log("dislike:",req.body.like)
 
     //mise a jour bdd
     sauces.updateOne(
@@ -63,13 +63,13 @@ sauces.findOne({_id : req.params.id})
             $push: {usersDisliked: req.body.userId}
         }
         )
-        .then(() => res.status(201).json({ message: "sauce disliked 0"}))
+        .then(() => res.status(201).json({ message: "sauce disliked 1"}))
         .catch((error) => res.status(400).json({error}));
     };
 
   //apres un like = -1 on met like =0 (pas de vote, on enleve le dislike)
   if(Object.usersDisliked.includes(req.body.userId) && req.body.like === 0){
-    console.log("userId est dans usersDisliked et like = 0")
+    console.log("UN_dislike:",req.body.like);
 
     //mise a jour bdd
     sauces.updateOne(
@@ -85,10 +85,12 @@ sauces.findOne({_id : req.params.id})
 };
 
 //si userId a deja liker ou disliker (impossible de re liker ou re disliker)
-
-
-
-
+if(Object.usersLiked.includes(req.body.userId) && req.body.like === 1){
+    console.log("Deja liked");
+}
+if(Object.usersDisliked.includes(req.body.userId) && req.body.like === -1){
+    console.log("Deja disliked");
+}
 
     })
     .catch((error) => res.status(404).json({error}));

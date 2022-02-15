@@ -1,6 +1,11 @@
 const http = require('http');
 const app = require('./app');
 
+//variable d'environnement
+const dotenv = require("dotenv");
+const result = dotenv.config();
+
+
 const normalizePort = val => {
   const port = parseInt(val, 10);
 
